@@ -1,25 +1,52 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import Header from "./components/Header";
+import Add from "./components/Add";
+import TodoList from "./components/TodoList";
+import "./css/style.css";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+    const [todo, setTodo] = useState([]);
+
+    useEffect(() => {
+        const data = localStorage.getItem('todo');
+        if (data) {
+            setTodo(JSON.parse(data));
+        }
+    }, []);
+
+    const markCard = index => {
+        const todoCopy = [...todo];
+        todoCopy[index].done = !todoCopy[index].done;
+        setTodo(prevTodo => prevTodo = todoCopy);
+        localStorage.setItem('todo', JSON.stringify(todoCopy));
+    }
+
+    const deleteCard = index => {
+        const todoCopy = [...todo];
+        todoCopy.splice(index, 1);
+        setTodo(prevTodo => prevTodo = todoCopy);
+        localStorage.setItem('todo', JSON.stringify(todoCopy));
+    }
+
+    const addTodo = (inp, inputText) => {
+        const todoCopy = [...todo];
+        let newCard = { id: todoCopy.length + 1, msg: inp, done: false };
+        todoCopy.push(newCard);
+        setTodo(prevTodo => prevTodo = todoCopy);
+        localStorage.setItem('todo', JSON.stringify([...todo, newCard]));
+        inputText.value = '';
+    }
+
+    return (
+        <div>
+            <Header />
+            <Add addTodo={addTodo} />
+            <div className="todo-list">
+                <TodoList todo={todo} markCard={markCard} deleteCard={deleteCard} />
+            </div>
+        </div>
+    )
 }
 
 export default App;
