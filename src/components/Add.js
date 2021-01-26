@@ -12,7 +12,7 @@ function Add({ addTodo }) {
     return (
         <>
             <div className="flex-container">
-                <input className="input" type="text" placeholder="What to do?" onChange={setNewTodo} id="add"></input>
+                <input className="input" id="add" type="text" placeholder="What to do?" onChange={setNewTodo} maxLength="16"></input>
                 <button className="search-button" onClick={() => { addTodo(msg, document.querySelector("#add")) }}>Add</button>
             </div>
         </>

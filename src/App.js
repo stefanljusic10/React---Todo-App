@@ -36,6 +36,11 @@ function App() {
         setTodo(prevTodo => prevTodo = todoCopy);
         localStorage.setItem('todo', JSON.stringify([...todo, newCard]));
         inputText.value = '';
+        const h3ContainerWidth = document.querySelector(".div-body").clientWidth;
+        const h3Width = document.getElementsByTagName("h3").clientWidth;
+        if(h3Width > h3ContainerWidth){
+            console.log("Preveliko je");
+        }
     }
 
     return (
